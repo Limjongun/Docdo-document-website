@@ -1,0 +1,13 @@
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-multipart==0.0.9
+Pillow==10.3.0
+opencv-python-headless==4.9.0.80
+PyMuPDF>=1.24.6
+pdfplumber==0.11.1
+PyPDF2==3.0.1
+python-docx==1.1.2
+openpyxl==3.1.4
+# OCR: custom EAST + CRNN pipeline via OpenCV DNN (no external binary needed)
+requests>=2.31.0
+numpy<2.0.0

@@ -1,0 +1,94 @@
+==============================
+DOCUMENT KERJA WEBSITE PORTOFOLIO
+==============================
+
+PROJECT NAME:
+All-in-One Document & Image Processing Web App
+
+TECH STACK:
+- Backend: Python 3.11+ (FastAPI)
+- Frontend: HTML5, CSS3 (Full responsive, simple design), Vanilla JS
+- OCR & AI: Tesseract OCR, EasyOCR, OpenCV, Pillow
+- PDF Tools: PyPDF2, pdfplumber, fitz(PyMuPDF), python-docx, openpyxl
+- Image Enhancement: OpenCV, Pillow, optionally Real-ESRGAN (GPU RTX 4050)
+- Deployment: Localhost / optional cloud (Render, Vercel, HuggingFace Spaces)
+
+REQUIREMENTS:
+- Laptop/PC dengan Python 3.11+
+- RTX 4050 GPU (opsional untuk AI enhancement)
+- Browser modern (Chrome, Firefox)
+- Internet untuk download library/updates
+- File storage: lokal folder / optional cloud storage
+- Optional: virtual environment (venv / conda)
+
+FEATURES & FUNCTIONALITY:
+1. Scan ID Card
+   - Upload image
+   - OCR extracts text data (Name, DOB, ID Number)
+   - Output: JSON or text
+
+2. Scan Document (OCR)
+   - Upload document image
+   - Extract all text via OCR
+   - Option to download text as .txt or .docx
+
+3. Scan Document (Sharpening)
+   - Upload document image
+   - Image pre-processing: sharpening, denoise
+   - Output: enhanced image preview & download
+
+4. PDF to Word
+   - Upload PDF
+   - Convert pages to .docx
+   - Retain formatting where possible
+
+5. Signature (Sharpening/Encoding/Extraction)
+   - Upload image of signature
+   - Sharpen & isolate signature
+   - Encode to base64 / PNG output
+
+6. PDF Tools
+   - Signature: embed signature to PDF
+   - Watermark: add text/image watermark
+   - Password: set or remove PDF password
+   - Rotate, Crop, Resize pages
+   - Convert PDF → Images (PNG/JPG)
+
+7. Converter
+   - Image → PDF
+   - PDF → Excel (.xlsx)
+   - Excel → PDF
+
+USER ACTIVITY (without login):
+1. Visit homepage
+2. Choose feature
+3. Upload file (image/pdf)
+4. Click "Process"
+5. Preview & download result
+6. Optionally reset / process another file
+
+WORKFLOW / CARA KERJA:
+1. Frontend sends file & parameters to FastAPI backend via POST request
+2. Backend receives file & selects processing function:
+   - OCR (Tesseract/EasyOCR)
+   - Image Processing (OpenCV/Pillow)
+   - PDF Tools (PyPDF2 / PyMuPDF / python-docx / openpyxl)
+3. Backend processes file:
+   - Extract text, sharpen image, convert formats
+4. Backend returns processed result:
+   - JSON (text), image (PNG/JPG), document (.docx/.xlsx/.pdf)
+5. Frontend displays result & download button
+6. Optional: reset or new task
+
+CSS DESIGN:
+- Fully responsive using flex/grid layouts
+- Simple clean UI: white background, accent buttons
+- Preview boxes for images & PDFs
+- Minimal color palette for clarity
+- Mobile-first design
+
+NOTES:
+- All processing handled server-side via Python
+- RTX 4050 GPU optional untuk image enhancement / AI acceleration
+- No login required, simple portfolio demo
+- Easily extensible untuk fitur tambahan

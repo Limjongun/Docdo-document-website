@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konversi File - DocPro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .tab-btn { padding:.45rem 1rem; border-radius:8px; border:1px solid var(--gray-200); background:var(--white); color:var(--gray-700); font-size:.875rem; font-weight:600; cursor:pointer; transition:all .2s; }
+    .tab-btn.active { background:var(--primary); color:var(--white); border-color:var(--primary); }
+    .tab-panel { display:none; } .tab-panel.active { display:block; }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="../index.html" class="navbar-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      DocPro
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="../index.html">Beranda</a></li>
+      <li><a href="scan-doc-ocr.html">OCR</a></li>
+      <li><a href="pdf-to-word.html">PDF ke Word</a></li>
+      <li><a href="pdf-tools.html">PDF Tools</a></li>
+      <li><a href="converter.html" class="active">Konversi</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html">Beranda</a>
+    <a href="converter.html">Konversi File</a>
+  </div>
+</nav>
+
+<main class="tool-page" style="max-width:800px">
+  <div class="tool-header">
+    <a href="../index.html" class="back-link">← Kembali ke Beranda</a>
+    <h1>Konversi File</h1>
+    <p>Konversi antar format: Gambar ke PDF, PDF ke Excel, Excel ke PDF.</p>
+  </div>
+
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+    <button class="tab-btn active" data-tab="img-pdf">Gambar → PDF</button>
+    <button class="tab-btn" data-tab="pdf-excel">PDF → Excel</button>
+    <button class="tab-btn" data-tab="excel-pdf">Excel → PDF</button>
+  </div>
+
+  <!-- IMAGES TO PDF -->
+  <div class="tab-panel active" id="tab-img-pdf">
+    <div class="card">
+      <h2 style="font-size:1rem;font-weight:700;margin-bottom:.5rem">Gabung Gambar ke PDF</h2>
+      <p class="text-muted mb-2">Pilih beberapa gambar, urutannya akan mengikuti urutan pilihan Anda.</p>
+      <div class="upload-zone" id="imgZone">
+        <input type="file" id="imgFiles" accept="image/*" multiple />
+        <div class="upload-icon">🖼️</div>
+        <h3>Pilih Satu atau Lebih Gambar</h3>
+        <p>JPG, PNG, BMP (bisa lebih dari 1)</p>
+        <div class="upload-file-name" id="imgFileName"></div>
+      </div>
+      <button class="btn btn-primary btn-full mt-2" id="imgBtn" disabled>Gabung ke PDF</button>
+      <div class="status-box" id="imgStatus"></div>
+    </div>
+  </div>
+
+  <!-- PDF TO EXCEL -->
+  <div class="tab-panel" id="tab-pdf-excel">
+    <div class="card">
+      <h2 style="font-size:1rem;font-weight:700;margin-bottom:.5rem">PDF ke Excel</h2>
+      <p class="text-muted mb-2">Ekstrak tabel dari PDF ke format .xlsx. Cocok untuk PDF yang mengandung tabel data.</p>
+      <div class="upload-zone" id="peZone">
+        <input type="file" id="peFile" accept=".pdf" />
+        <div class="upload-icon">📊</div>
+        <h3>Upload PDF</h3>
+        <div class="upload-file-name" id="peFileName"></div>
+      </div>
+      <button class="btn btn-primary btn-full mt-2" id="peBtn" disabled>Konversi ke Excel</button>
+      <div class="status-box" id="peStatus"></div>
+    </div>
+  </div>
+
+  <!-- EXCEL TO PDF -->
+  <div class="tab-panel" id="tab-excel-pdf">
+    <div class="card">
+      <h2 style="font-size:1rem;font-weight:700;margin-bottom:.5rem">Excel ke PDF</h2>
+      <p class="text-muted mb-2">Konversi spreadsheet Excel (.xlsx) ke dokumen PDF.</p>
+      <div class="upload-zone" id="epZone">
+        <input type="file" id="epFile" accept=".xlsx,.xls" />
+        <div class="upload-icon">📋</div>
+        <h3>Upload File Excel</h3>
+        <div class="upload-file-name" id="epFileName"></div>
+      </div>
+      <button class="btn btn-primary btn-full mt-2" id="epBtn" disabled>Konversi ke PDF</button>
+      <div class="status-box" id="epStatus"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><p><strong>DocPro</strong> &nbsp;•&nbsp; All-in-One Document Processing</p></div></footer>
+
+<script src="../js/api.js"></script>
+<script src="../js/main.js"></script>
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Images to PDF
+const imgFiles = document.getElementById('imgFiles');
+const imgFileName = document.getElementById('imgFileName');
+const imgBtn = document.getElementById('imgBtn');
+const imgStatus = document.getElementById('imgStatus');
+initUploadZone(document.getElementById('imgZone'), imgFiles, imgFileName);
+imgFiles.addEventListener('change', () => {
+  imgBtn.disabled = !imgFiles.files.length;
+  if (imgFiles.files.length) {
+    imgFileName.style.display = 'block';
+    imgFileName.textContent = `${imgFiles.files.length} file dipilih`;
+  }
+});
+imgBtn.addEventListener('click', async () => {
+  imgBtn.disabled = true;
+  showStatus(imgStatus, 'loading', 'Menggabungkan gambar...');
+  const fd = new FormData();
+  for (const f of imgFiles.files) fd.append('files', f);
+  try {
+    const res = await apiPost('/api/convert/images-to-pdf', fd);
+    if (!res.ok) throw new Error('Gagal');
+    triggerDownload(await res.blob(), 'merged.pdf');
+    showStatus(imgStatus, 'success', 'Berhasil! File diunduh.');
+  } catch (err) { showStatus(imgStatus, 'error', err.message); }
+  finally { imgBtn.disabled = false; }
+});
+
+// PDF to Excel
+const peFile = document.getElementById('peFile');
+const peBtn = document.getElementById('peBtn');
+const peStatus = document.getElementById('peStatus');
+initUploadZone(document.getElementById('peZone'), peFile, document.getElementById('peFileName'));
+peFile.addEventListener('change', () => { peBtn.disabled = !peFile.files.length; });
+peBtn.addEventListener('click', async () => {
+  peBtn.disabled = true;
+  showStatus(peStatus, 'loading', 'Mengekstrak tabel...');
+  const fd = new FormData(); fd.append('file', peFile.files[0]);
+  try {
+    const res = await apiPost('/api/convert/pdf-to-excel', fd);
+    if (!res.ok) throw new Error('Gagal');
+    triggerDownload(await res.blob(), 'extracted.xlsx');
+    showStatus(peStatus, 'success', 'Berhasil!');
+  } catch (err) { showStatus(peStatus, 'error', err.message); }
+  finally { peBtn.disabled = false; }
+});
+
+// Excel to PDF
+const epFile = document.getElementById('epFile');
+const epBtn = document.getElementById('epBtn');
+const epStatus = document.getElementById('epStatus');
+initUploadZone(document.getElementById('epZone'), epFile, document.getElementById('epFileName'));
+epFile.addEventListener('change', () => { epBtn.disabled = !epFile.files.length; });
+epBtn.addEventListener('click', async () => {
+  epBtn.disabled = true;
+  showStatus(epStatus, 'loading', 'Mengonversi Excel...');
+  const fd = new FormData(); fd.append('file', epFile.files[0]);
+  try {
+    const res = await apiPost('/api/convert/excel-to-pdf', fd);
+    if (!res.ok) throw new Error('Gagal');
+    triggerDownload(await res.blob(), 'converted.pdf');
+    showStatus(epStatus, 'success', 'Berhasil!');
+  } catch (err) { showStatus(epStatus, 'error', err.message); }
+  finally { epBtn.disabled = false; }
+});
+</script>
+</body>
+</html>

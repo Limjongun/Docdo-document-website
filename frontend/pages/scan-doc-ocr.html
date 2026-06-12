@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scan Dokumen (OCR) - DocPro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="../index.html" class="navbar-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      DocPro
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="../index.html">Beranda</a></li>
+      <li><a href="scan-doc-ocr.html" class="active">OCR</a></li>
+      <li><a href="pdf-to-word.html">PDF ke Word</a></li>
+      <li><a href="pdf-tools.html">PDF Tools</a></li>
+      <li><a href="converter.html">Konversi</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html">Beranda</a>
+    <a href="scan-doc-ocr.html">OCR Dokumen</a>
+    <a href="pdf-to-word.html">PDF ke Word</a>
+    <a href="pdf-tools.html">PDF Tools</a>
+    <a href="converter.html">Konversi File</a>
+  </div>
+</nav>
+
+<main class="tool-page">
+  <div class="tool-header">
+    <a href="../index.html" class="back-link">← Kembali ke Beranda</a>
+    <h1>Scan Dokumen (OCR)</h1>
+    <p>Ekstrak seluruh teks dari foto atau scan dokumen menggunakan Tesseract OCR.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:1rem;font-weight:700;margin-bottom:1rem">Upload Gambar Dokumen</h2>
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" id="fileInput" accept="image/*" />
+      <div class="upload-icon">📄</div>
+      <h3>Klik atau Seret File di Sini</h3>
+      <p>Format: JPG, PNG, BMP, TIFF</p>
+      <div class="upload-file-name" id="fileName"></div>
+    </div>
+
+    <div class="form-group mt-2">
+      <label class="form-label" for="langSelect">Bahasa OCR</label>
+      <select class="form-control" id="langSelect">
+        <option value="ind+eng">Indonesia + Inggris (Default)</option>
+        <option value="ind">Indonesia saja</option>
+        <option value="eng">Inggris saja</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary btn-full" id="processBtn" disabled>
+      Proses OCR
+    </button>
+
+    <div class="status-box" id="statusBox"></div>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.75rem">
+      <h2 style="font-size:1rem;font-weight:700">Hasil Teks</h2>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-success" id="copyBtn">Salin Teks</button>
+        <button class="btn btn-primary" id="downloadTxtBtn">Unduh .txt</button>
+      </div>
+    </div>
+    <div class="preview-text" id="resultText">—</div>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><p><strong>DocPro</strong> &nbsp;•&nbsp; All-in-One Document Processing</p></div></footer>
+
+<script src="../js/api.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const uploadZone = document.getElementById('uploadZone');
+  const fileName = document.getElementById('fileName');
+  const processBtn = document.getElementById('processBtn');
+  const statusBox = document.getElementById('statusBox');
+  const resultCard = document.getElementById('resultCard');
+  const resultText = document.getElementById('resultText');
+  const copyBtn = document.getElementById('copyBtn');
+  const downloadTxtBtn = document.getElementById('downloadTxtBtn');
+  const langSelect = document.getElementById('langSelect');
+
+  initUploadZone(uploadZone, fileInput, fileName);
+  fileInput.addEventListener('change', () => {
+    processBtn.disabled = !fileInput.files.length;
+  });
+
+  processBtn.addEventListener('click', async () => {
+    if (!fileInput.files.length) return;
+    processBtn.disabled = true;
+    showStatus(statusBox, 'loading', 'Sedang memproses OCR...');
+    resultCard.style.display = 'none';
+
+    const fd = new FormData();
+    fd.append('file', fileInput.files[0]);
+    fd.append('lang', langSelect.value);
+
+    try {
+      const res = await apiPost('/api/ocr/scan-document', fd);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Gagal memproses');
+      resultText.textContent = data.text || '(Tidak ada teks terdeteksi)';
+      resultCard.style.display = 'block';
+      showStatus(statusBox, 'success', 'OCR berhasil!');
+    } catch (err) {
+      showStatus(statusBox, 'error', err.message);
+    } finally {
+      processBtn.disabled = false;
+    }
+  });
+
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(resultText.textContent);
+    copyBtn.textContent = '✓ Tersalin!';
+    setTimeout(() => copyBtn.textContent = 'Salin Teks', 2000);
+  });
+
+  downloadTxtBtn.addEventListener('click', () => {
+    const blob = new Blob([resultText.textContent], { type: 'text/plain' });
+    triggerDownload(blob, 'hasil_ocr.txt');
+  });
+</script>
+</body>
+</html>

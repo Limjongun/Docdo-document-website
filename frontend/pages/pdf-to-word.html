@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF ke Word - DocPro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="../index.html" class="navbar-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      DocPro
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="../index.html">Beranda</a></li>
+      <li><a href="scan-doc-ocr.html">OCR</a></li>
+      <li><a href="pdf-to-word.html" class="active">PDF ke Word</a></li>
+      <li><a href="pdf-tools.html">PDF Tools</a></li>
+      <li><a href="converter.html">Konversi</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html">Beranda</a>
+    <a href="pdf-to-word.html">PDF ke Word</a>
+  </div>
+</nav>
+
+<main class="tool-page">
+  <div class="tool-header">
+    <a href="../index.html" class="back-link">← Kembali ke Beranda</a>
+    <h1>PDF ke Word (.docx)</h1>
+    <p>Konversi file PDF menjadi dokumen Word yang dapat diedit. Teks diekstrak per halaman.</p>
+  </div>
+
+  <div class="card">
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" id="fileInput" accept=".pdf,application/pdf" />
+      <div class="upload-icon">📝</div>
+      <h3>Klik atau Seret File PDF</h3>
+      <p>Hanya file .pdf yang didukung</p>
+      <div class="upload-file-name" id="fileName"></div>
+    </div>
+
+    <button class="btn btn-primary btn-full mt-2" id="processBtn" disabled>
+      Konversi ke Word
+    </button>
+    <div class="status-box" id="statusBox"></div>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none">
+    <p class="text-muted" style="margin-bottom:1rem">Konversi berhasil. Klik tombol di bawah untuk mengunduh file .docx Anda.</p>
+    <button class="btn btn-success btn-full" id="downloadBtn">Unduh File .docx</button>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><p><strong>DocPro</strong> &nbsp;•&nbsp; All-in-One Document Processing</p></div></footer>
+
+<script src="../js/api.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const uploadZone = document.getElementById('uploadZone');
+  const fileName = document.getElementById('fileName');
+  const processBtn = document.getElementById('processBtn');
+  const statusBox = document.getElementById('statusBox');
+  const resultCard = document.getElementById('resultCard');
+  const downloadBtn = document.getElementById('downloadBtn');
+  let resultBlob = null;
+
+  initUploadZone(uploadZone, fileInput, fileName);
+  fileInput.addEventListener('change', () => { processBtn.disabled = !fileInput.files.length; });
+
+  processBtn.addEventListener('click', async () => {
+    processBtn.disabled = true;
+    resultCard.style.display = 'none';
+    showStatus(statusBox, 'loading', 'Sedang mengonversi PDF...');
+
+    const fd = new FormData();
+    fd.append('file', fileInput.files[0]);
+
+    try {
+      const res = await apiPost('/api/pdf/to-word', fd);
+      if (!res.ok) throw new Error('Gagal mengonversi file');
+      resultBlob = await res.blob();
+      resultCard.style.display = 'block';
+      showStatus(statusBox, 'success', 'Konversi berhasil!');
+    } catch (err) {
+      showStatus(statusBox, 'error', err.message);
+    } finally {
+      processBtn.disabled = false;
+    }
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if (resultBlob) triggerDownload(resultBlob, 'converted.docx');
+  });
+</script>
+</body>
+</html>

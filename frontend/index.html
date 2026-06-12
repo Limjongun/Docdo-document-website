@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DocPro - All-in-One Document & Image Processing</title>
+  <meta name="description" content="Proses dokumen dan gambar Anda secara mudah: OCR, PDF to Word, Kompres, Tanda Tangan, dan lainnya." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+      DocPro
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="pages/scan-doc-ocr.html">OCR</a></li>
+      <li><a href="pages/pdf-to-word.html">PDF ke Word</a></li>
+      <li><a href="pages/pdf-tools.html">PDF Tools</a></li>
+      <li><a href="pages/converter.html">Konversi</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Beranda</a>
+    <a href="pages/scan-doc-ocr.html">OCR Dokumen</a>
+    <a href="pages/scan-doc-sharpen.html">Perjelas Dokumen</a>
+    <a href="pages/pdf-to-word.html">PDF ke Word</a>
+    <a href="pages/signature.html">Tanda Tangan</a>
+    <a href="pages/pdf-tools.html">PDF Tools</a>
+    <a href="pages/converter.html">Konversi File</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <h1>All-in-One Document Processing</h1>
+    <p>Proses dokumen dan gambar Anda secara lokal, cepat, dan aman. OCR, konversi PDF, tanda tangan, dan lebih banyak lagi.</p>
+    <div class="hero-actions">
+      <a href="pages/scan-doc-ocr.html" class="btn btn-white btn-lg">Mulai Sekarang</a>
+      <a href="#features" class="btn btn-outline btn-lg">Lihat Fitur</a>
+    </div>
+  </div>
+</header>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title">Pilih Fitur</h2>
+    <p class="section-sub">Semua pemrosesan dilakukan di server lokal Anda — privat dan tanpa batas.</p>
+
+    <div class="feature-grid">
+
+      <!-- OCR -->
+      <a href="pages/scan-doc-ocr.html" class="feature-card">
+        <div class="icon" style="background:#eff6ff">📄</div>
+        <h3>Scan Dokumen (OCR)</h3>
+        <p>Ekstrak teks dari foto atau scan dokumen menggunakan Tesseract OCR.</p>
+        <span class="arrow">Mulai →</span>
+      </a>
+
+      <!-- Sharpen -->
+      <a href="pages/scan-doc-sharpen.html" class="feature-card">
+        <div class="icon" style="background:#f0fdf4">🔍</div>
+        <h3>Perjelas Dokumen</h3>
+        <p>Pertajam dan bersihkan gambar dokumen agar lebih mudah dibaca.</p>
+        <span class="arrow">Mulai →</span>
+      </a>
+
+      <!-- PDF to Word -->
+      <a href="pages/pdf-to-word.html" class="feature-card">
+        <div class="icon" style="background:#fdf4ff">📝</div>
+        <h3>PDF ke Word</h3>
+        <p>Konversi file PDF menjadi dokumen Word (.docx) secara otomatis.</p>
+        <span class="arrow">Mulai →</span>
+      </a>
+
+      <!-- Signature -->
+      <a href="pages/signature.html" class="feature-card">
+        <div class="icon" style="background:#fff7ed">✍️</div>
+        <h3>Tanda Tangan</h3>
+        <p>Isolasi dan perjelas tanda tangan dari foto atau scan dokumen.</p>
+        <span class="arrow">Mulai →</span>
+      </a>
+
+      <!-- PDF Tools -->
+      <a href="pages/pdf-tools.html" class="feature-card">
+        <div class="icon" style="background:#fef2f2">🛠️</div>
+        <h3>PDF Tools</h3>
+        <p>Watermark, password, rotasi, konversi ke gambar, dan embed tanda tangan.</p>
+        <span class="arrow">Mulai →</span>
+      </a>
+
+      <!-- Converter -->
+      <a href="pages/converter.html" class="feature-card">
+        <div class="icon" style="background:#f0fdf4">🔄</div>
+        <h3>Konversi File</h3>
+        <p>Gambar ke PDF, PDF ke Excel, Excel ke PDF — semua dalam satu tempat.</p>
+        <span class="arrow">Mulai →</span>
+      </a>
+
+      <!-- Scan ID Card (AI - Coming Soon) -->
+      <a href="#" class="feature-card" style="cursor:default;opacity:.85">
+        <span class="badge-soon">Coming Soon</span>
+        <div class="icon" style="background:#fefce8">🪪</div>
+        <h3>Scan KTP / ID Card</h3>
+        <p>Ekstrak data terstruktur (Nama, NIK, TTL) dari foto KTP menggunakan AI OCR.</p>
+        <span class="arrow" style="color:var(--gray-400)">Segera Hadir →</span>
+      </a>
+
+      <!-- AI Enhancement (Coming Soon) -->
+      <a href="#" class="feature-card" style="cursor:default;opacity:.85">
+        <span class="badge-soon">Coming Soon</span>
+        <div class="icon" style="background:#fdf4ff">✨</div>
+        <h3>AI Image Enhancement</h3>
+        <p>Tingkatkan resolusi dan kualitas gambar menggunakan AI (Real-ESRGAN, GPU).</p>
+        <span class="arrow" style="color:var(--gray-400)">Segera Hadir →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:var(--white); border-top:1px solid var(--gray-200)">
+  <div class="container">
+    <h2 class="section-title">Cara Kerja</h2>
+    <p class="section-sub">Proses file dalam 3 langkah mudah</p>
+    <div class="feature-grid" style="max-width:800px; margin: 0 auto;">
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">📤</div>
+        <h3 style="margin-bottom:.35rem">1. Upload File</h3>
+        <p class="text-muted">Unggah gambar, PDF, atau Excel Anda</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">⚙️</div>
+        <h3 style="margin-bottom:.35rem">2. Proses</h3>
+        <p class="text-muted">Klik tombol proses dan tunggu hasilnya</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">📥</div>
+        <h3 style="margin-bottom:.35rem">3. Download</h3>
+        <p class="text-muted">Unduh hasil yang sudah diproses</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p><strong>DocPro</strong> &nbsp;•&nbsp; All-in-One Document & Image Processing</p>
+    <p class="mt-1">Built with FastAPI + Python | Berjalan secara lokal</p>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
